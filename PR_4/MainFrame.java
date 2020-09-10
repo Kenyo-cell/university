@@ -9,8 +9,6 @@ public class MainFrame extends JFrame {
     private JLabel score = new JLabel();
     private JLabel lastScorer = new JLabel();
     private JLabel winner = new JLabel();
-    private final JButton realButton = new TeamButton(real, this);
-    private final JButton milanButton = new TeamButton(milan, this);
 
 
     public MainFrame() {
@@ -19,8 +17,8 @@ public class MainFrame extends JFrame {
         setSize(500, 300);
         setFont(font);
 
-        add(realButton, BorderLayout.WEST);
-        add(milanButton, BorderLayout.EAST);
+        add(new TeamButton(real, this), BorderLayout.WEST);
+        add(new TeamButton(milan, this), BorderLayout.EAST);
 
         panel = new JPanel();
         add(panel, BorderLayout.CENTER);
