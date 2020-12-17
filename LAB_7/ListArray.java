@@ -4,24 +4,26 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class ListArray<T> extends AbstractCollection implements List {
-    private Object[] array;
+public class ListArray<T> extends AbstractCollection<T> implements List<T> {
+    private T[] array;
     private int capacity;
     private int size = 0;
 
+    @SuppressWarnings("unchecked")
     public ListArray() {
         capacity = 10;
-        array = new Object[10];
+        array = (T[]) new Object[10];
     }
 
+    @SuppressWarnings("unchecked")
     public ListArray(int capacity) {
         this.capacity = capacity;
-        array = new Object[capacity];
+        array = (T[]) new Object[capacity];
     }
 
     @Override
-    public Iterator iterator() {
-        return new ListArrayIterator(this);
+    public Iterator<T> iterator() {
+        return new ListArrayIterator<T>(this);
     }
 
     @Override
@@ -29,12 +31,13 @@ public class ListArray<T> extends AbstractCollection implements List {
         return size;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public void add(int index, Object element) {
+    public void add(int index, T element) {
         if (index >= capacity) {
             capacity *= 2;
-            Object[] arrayCopy = array;
-            array = new Object[capacity];
+            T[] arrayCopy = array;
+            array = (T[]) new Object[capacity];
             for (int i = 0; i < arrayCopy.length; i++) {
                 array[i] = arrayCopy[i];
             }
@@ -44,9 +47,9 @@ public class ListArray<T> extends AbstractCollection implements List {
     }
 
     @Override
-    public boolean addAll(int index, Collection c) {
-        List subArray = subList(index, size);
-        Iterator t = c.iterator();
+    public boolean addAll(int index, Collection<? extends T> c) {
+        List<T> subArray = subList(index, size);
+        Iterator<? extends T> t = c.iterator();
         for (int i = 0; i < c.size(); i++) {      
             this.add(i + index, t.next());
         }
@@ -58,8 +61,8 @@ public class ListArray<T> extends AbstractCollection implements List {
     }
 
     @Override
-    public boolean addAll(Collection c) {
-        Iterator t = c.iterator();
+    public boolean addAll(Collection<? extends T> c) {
+        Iterator<? extends T> t = c.iterator();
 
         int lesser = size + c.size();
 
@@ -70,8 +73,8 @@ public class ListArray<T> extends AbstractCollection implements List {
     }
 
     @Override
-    public Object get(int index) {
-        return array[index];
+    public T get(int index) {
+        return (T)array[index];
     }
 
     @Override
@@ -95,27 +98,27 @@ public class ListArray<T> extends AbstractCollection implements List {
     }
 
     @Override
-    public ListIterator listIterator() {
+    public ListIterator<T> listIterator() {
         return null;
     }
 
     @Override
-    public ListIterator listIterator(int index) {
+    public ListIterator<T> listIterator(int index) {
         return null;
     }
 
     @Override
-    public Object remove(int index) {
+    public T remove(int index) {
         return null;
     }
 
     @Override
-    public Object set(int index, Object element) {
+    public T set(int index, T element) {
         return null;
     }
 
     @Override
-    public List subList(int fromIndex, int toIndex) {
+    public List<T> subList(int fromIndex, int toIndex) {
         ListArray<T> subArray = new ListArray<>(toIndex - fromIndex);
         for (int i = 0; i < toIndex - fromIndex; i++) {
             subArray.add(array[fromIndex + i]);
@@ -124,7 +127,7 @@ public class ListArray<T> extends AbstractCollection implements List {
     }
 
     @Override
-    public boolean add(Object e) {
+    public boolean add(T e) {
         try {
             add(size, e);
         }
